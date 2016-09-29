@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Screenshot</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+
+            <li>
+              <form class="navbar-form navbar-left">
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon" id="action-selector">
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Create New Issue <span class="caret"></span> </a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Attach to Existing Issue</a></li>
+                        </ul>
+                      </li>
+                    </span>
+                    <input type="text" class="form-control ticket-title" aria-describedby="action-selector" placeholder="Issue Title">
+                  </div>
+                </div>
+                <button type="button" class="btn btn-default">Add Description</button>
+              </form>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <form class="navbar-form navbar-left">
+                <button class="btn btn-success create-issue">Create Issue</button>
+              </form>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <img id="screenshot" src="" height="100%" width="100%">
+
+    <script src="/jquery-2.1.1.min.js"></script>
+    <script src="/js/edit-screenshot.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+  </body>
+<html>

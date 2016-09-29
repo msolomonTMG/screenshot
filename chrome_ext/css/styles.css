@@ -1,0 +1,13 @@
+body {
+  min-width: 700px;
+  min-height: 700px;
+}
+
+.ticket-title {
+  min-width: 30vw;
+}
+
+.dropdown-toggle {
+  text-decoration: none;
+  color: #777;
+}
