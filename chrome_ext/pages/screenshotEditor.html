@@ -36,10 +36,12 @@
                         </ul>
                       </li>
                     </span>
-                    <input type="text" class="form-control ticket-title" aria-describedby="action-selector" placeholder="Issue Title">
+                    <input type="text" class="form-control issue-summary" aria-describedby="action-selector" placeholder="Issue Title">
                   </div>
                 </div>
-                <button type="button" class="btn btn-default">Add Description</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#descriptionModal">
+                  Add Description
+                </button>
               </form>
             </li>
           </ul>
@@ -55,6 +57,29 @@
     </nav>
 
     <img id="screenshot" src="" height="100%" width="100%">
+
+    <!-- Modal -->
+    <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <form id="description-form">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close cancel-description" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Description</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <textarea class="form-control issue-description" rows="5"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="reset" class="btn btn-default cancel-description" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <script src="/jquery-2.1.1.min.js"></script>
     <script src="/js/edit-screenshot.js"></script>

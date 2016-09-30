@@ -8,19 +8,28 @@ $(document).ready(function() {
   $('.create-issue').on('click', function() {
     saveIssueData().then( createIssue() );
   })
+
+  // clear description when cancel button or x is clicked
+  $('.cancel-description').on('click', function () {
+    $('#description-form').trigger('reset');
+  })
 })
 
 function saveIssueData() {
   return new Promise(function(resolve, reject) {
     //TODO: all of this data should be set by the user
+
+    let issueSummary = $('.issue-summary').val();
+    let issueDescription = $('.issue-description').val();
+
     chrome.storage.local.get('pageUrl', function(items) {
       let url = items.pageUrl;
       let urlDescription = '\n *Taken From:* ' + url;
 
       chrome.storage.local.set({
         'projectKey': 'TR',
-        'issueSummary': 'Test Summary',
-        'issueDescription': 'Test Description: ' + urlDescription,
+        'issueSummary': issueSummary,
+        'issueDescription': issueDescription + urlDescription,
         'issueType': 'Task'
       }, function() {
         if (!chrome.runtime.error) {
