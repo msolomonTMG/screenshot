@@ -1,50 +1,5 @@
-function getAdditionalIssueInfo(issue) {
-  return new Promise(function (resolve, reject) {
-    let request = {
-      method: 'get',
-      url: issue.self
-    }
-    sendAjaxRequest(request)
-      .then(additionalIssueInfo => {
-        return resolve(additionalIssueInfo);
-      })
-      .catch(err => {
-        return reject(err);
-      })
-  })
-}
-
-function createIssue() {
-  return new Promise(function (resolve, reject) {
-    let issueData = getIssueData(); // the summary, description, and screenshot created by the user
-    let jiraUrl    = getJiraUrl();  // the jira url for the user's atlassian instance
-
-    // once we have everything we need to create the ticket, send the POST to JIRA
-    Promise.all([issueData, jiraUrl]).then(values => {
-      console.log(values);
-      let request = {
-        method: 'post',
-        data: JSON.stringify(values[0]),
-        url: values[1],
-        contentType: 'application/json; charset=utf-8'
-      };
-      resolve({
-        id: "49212",
-        key: "TR-3361",
-        self:"https://thrillistmediagroup.atlassian.net/rest/api/2/issue/49212"
-      });
-      //TODO: uncomment this to actually create tickets
-      // sendAjaxRequest(request)
-      //   .then(response => {
-      //     return resolve(response);
-      //   })
-      //   .catch(error => {
-      //     return reject(error);
-      //   })
-    });
-  })
-
-  function getIssueData() {
+var jiraHelpers = {
+  getIssueData: function () {
     return new Promise(function(resolve, reject) {
       chrome.storage.local.get({
         'issueSummary': '',
@@ -65,16 +20,15 @@ function createIssue() {
                 'name': items.issueType
               }
             }
-      		};
+          };
           return resolve(issueData);
         } else {
           return reject(items);
         }
       });
     });
-  }
-
-  function getJiraUrl() {
+  },
+  getJiraUrl: function () {
     return new Promise(function(resolve, reject) {
       resolve('https://thrillistmediagroup.atlassian.net/rest/api/2/issue');
       //TODO: set this up properly with an options page
@@ -87,6 +41,82 @@ function createIssue() {
       //     return reject(items);
       //   }
       // })
+    })
+  }
+}
+var jira = {
+  getAdditionalIssueInfo: function (issue) {
+    return new Promise(function (resolve, reject) {
+      let request = {
+        method: 'get',
+        url: issue.self
+      }
+      sendAjaxRequest(request)
+        .then(additionalIssueInfo => {
+          return resolve(additionalIssueInfo);
+        })
+        .catch(err => {
+          return reject(err);
+        })
+    })
+  },
+  createIssue: function () {
+    return new Promise(function (resolve, reject) {
+      let issueData = jiraHelpers.getIssueData(); // the summary, description, and screenshot created by the user
+      let jiraUrl    = jiraHelpers.getJiraUrl();  // the jira url for the user's atlassian instance
+
+      // once we have everything we need to create the ticket, send the POST to JIRA
+      Promise.all([issueData, jiraUrl]).then(values => {
+        console.log(values);
+        let request = {
+          method: 'post',
+          data: JSON.stringify(values[0]),
+          url: values[1],
+          contentType: 'application/json; charset=utf-8'
+        };
+        resolve({
+          id: "49212",
+          key: "TR-3361",
+          self:"https://thrillistmediagroup.atlassian.net/rest/api/2/issue/49212"
+        });
+        //TODO: uncomment this to actually create tickets
+        // sendAjaxRequest(request)
+        //   .then(response => {
+        //     return resolve(response);
+        //   })
+        //   .catch(error => {
+        //     return reject(error);
+        //   })
+      });
+    })
+  },
+  addScreenShotToIssue: function (issue, screenshotBlob) {
+    return new Promise(function (resolve, reject) {
+      let data = new FormData();
+      data.append('file', screenshotBlob, 'capture.jpeg');
+
+      let request = {
+        method: 'post',
+        url: issue.self + '/attachments',
+        headers: [
+          {
+            key: 'X-Atlassian-Token',
+            value: 'nocheck'
+          }
+        ],
+        data: data,
+        contentType: false,
+        cache: false,
+        processData: false
+      }
+
+      sendAjaxRequest(request)
+        .then(response => {
+          return resolve(response);
+        })
+        .catch(err => {
+          return reject(err);
+        })
     })
   }
 }

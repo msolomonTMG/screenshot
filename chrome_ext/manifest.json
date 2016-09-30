@@ -37,11 +37,11 @@
   "background": {
     "scripts": [
       "jquery-2.1.1.min.js",
-      "eventPage.js",
       "backend/screenshot.js",
       "backend/jira.js",
       "backend/notification.js",
-      "backend/tab.js"
+      "backend/tab.js",
+      "eventPage.js"
     ],
     "persistent": false
   }

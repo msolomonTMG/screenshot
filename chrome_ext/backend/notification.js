@@ -1,8 +1,5 @@
-
-function sendChromeNotification(issue) {
-  createOptions().then(options => createNotification(options) );
-
-  function createOptions() {
+var notificationHelpers = {
+  createOptions: function (issue) {
     return new Promise(function (resolve, reject) {
       resolve({
         type: 'list',
@@ -27,16 +24,15 @@ function sendChromeNotification(issue) {
         ]
       })
     })
-  }
-
-  function createNotification(options) {
+  },
+  createNotification: function (options) {
     chrome.notifications.create('notification', options, function(notificationId) {
       chrome.notifications.onClicked.addListener(notificationListener);
 
       function notificationListener(notificationId) {
         if (notificationId == 'notification') {
           //TODO: make this the url of the ticket
-          goTo(issue.self);
+          tab.goTo(issue.self);
           clearNotification(notificationId)
             .then(wasCleared => {
               chrome.notifications.onClicked.removeListener(notificationListener); // prevent tabs opening twice
@@ -46,18 +42,25 @@ function sendChromeNotification(issue) {
             })
         }
       }
+
+      function clearNotification(notificationId) {
+        return new Promise (function(resolve, reject) {
+          chrome.notifications.clear(notificationId, function(wasCleared) {
+            if (wasCleared) {
+              return resolve(wasCleared);
+            } else {
+              return reject(wasCleared);
+            }
+          })
+        })
+      }
     });
   }
 
-  function clearNotification(notificationId) {
-    return new Promise (function(resolve, reject) {
-      chrome.notifications.clear(notificationId, function(wasCleared) {
-        if (wasCleared) {
-          return resolve(wasCleared);
-        } else {
-          return reject(wasCleared);
-        }
-      })
-    })
+}
+
+var notification = {
+  sendChromeNotification: function (issue) {
+    notificationHelpers.createOptions(issue).then(options => notificationHelpers.createNotification(options) );
   }
 }

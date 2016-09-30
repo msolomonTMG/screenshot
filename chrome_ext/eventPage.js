@@ -5,14 +5,14 @@ const screenshotEditor = '/pages/screenshotEditor.html';
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   switch(request.action) {
     case 'take_screenshot':
-      takeScreenshot().then( goTo(screenshotEditor) );
+      screenshot.takeScreenshot().then( tab.goTo(screenshotEditor) );
       break;
     case 'create_issue':
-      createIssue().then(issue => {
-        saveScreenshotToDisk().then(screenshotBlob => {
-          addScreenShotToIssue(issue, screenshotBlob).then(data => {
-            getAdditionalIssueInfo(issue).then(additonalIssueInfo => {
-              sendChromeNotification(additonalIssueInfo);
+      jira.createIssue().then(issue => {
+        screenshot.saveScreenshotToDisk().then(screenshotBlob => {
+          jira.addScreenShotToIssue(issue, screenshotBlob).then(data => {
+            jira.getAdditionalIssueInfo(issue).then(additonalIssueInfo => {
+              notification.sendChromeNotification(additonalIssueInfo);
             })
           })
         })
@@ -39,12 +39,9 @@ function sendAjaxRequest(request) {
         }
       },
       success: function(data, status, xhr) {
-        console.log(data);
-        console.log(status);
         return resolve(data);
       },
       error: function(xhr){
-        console.log('error', xhr);
         return reject(xhr);
       }
     });
