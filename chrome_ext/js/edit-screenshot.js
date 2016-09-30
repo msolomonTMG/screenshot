@@ -12,17 +12,23 @@ $(document).ready(function() {
 
 function saveIssueData() {
   return new Promise(function(resolve, reject) {
-    chrome.storage.local.set({
-      'projectKey': 'TR',
-      'issueSummary': 'Test Summary',
-      'issueDescription': 'Test Description',
-      'issueType': 'Task'
-    }, function() {
-      if (!chrome.runtime.error) {
-        return resolve();
-      } else {
-        return reject();
-      }
+    //TODO: all of this data should be set by the user
+    chrome.storage.local.get('pageUrl', function(items) {
+      let url = items.pageUrl;
+      let urlDescription = '\n *Taken From:* ' + url;
+
+      chrome.storage.local.set({
+        'projectKey': 'TR',
+        'issueSummary': 'Test Summary',
+        'issueDescription': 'Test Description: ' + urlDescription,
+        'issueType': 'Task'
+      }, function() {
+        if (!chrome.runtime.error) {
+          return resolve();
+        } else {
+          return reject();
+        }
+      });
     });
   });
 }

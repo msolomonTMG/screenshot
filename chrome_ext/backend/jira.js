@@ -7,7 +7,6 @@ var jiraHelpers = {
         'projectKey': '',
         'issueType': ''
       }, function(items) {
-        console.log('issue data', items);
         if (!chrome.runtime.error) {
           let issueData = {
             'fields': {
