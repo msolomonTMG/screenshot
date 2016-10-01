@@ -7,6 +7,9 @@ chrome.storage.local.get('screenshotURL', function (data) {
 $(document).ready(function() {
   $('.create-issue').on('click', function() {
     saveIssueData().then( createIssue() );
+    chrome.tabs.getCurrent(function(tab) {
+      chrome.tabs.remove(tab.id, function() { });
+    });
   })
 
   // clear description when cancel button or x is clicked
