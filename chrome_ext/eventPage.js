@@ -18,6 +18,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         })
       });
       break;
+    case 'send_ajax_reuest':
+      sendAjaxRequest(request.ajaxRequest)
+        .then(response => {
+          sendResponse(response);
+        })
+        .catch(err => {
+          console.log(err);
+          sendResponse(err);
+        });
+      return true;
+      break;
   }
 });
 

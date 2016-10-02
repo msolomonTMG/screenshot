@@ -40,5 +40,16 @@ var tab = {
             })
         })
     })
+  },
+  getCurrentTab: function () {
+    return new Promise (function(resolve, reject) {
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        if (tabs[0]) {
+          return resolve(tabs[0]);
+        } else {
+          return reject(tabs[0]);
+        }
+      });
+    })
   }
 }
