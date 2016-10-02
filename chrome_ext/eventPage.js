@@ -58,3 +58,10 @@ function sendAjaxRequest(request) {
     });
   })
 }
+
+// open the options page on install
+chrome.runtime.onInstalled.addListener(function (onInstalled) {
+    if (onInstalled.reason === 'install') {
+      chrome.tabs.create({url: 'chrome://extensions/?options=' + chrome.runtime.id});
+    }
+});
