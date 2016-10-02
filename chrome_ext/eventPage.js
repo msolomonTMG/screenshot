@@ -18,6 +18,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         })
       });
       break;
+    case 'send_ajax_reuest':
+      sendAjaxRequest(request.ajaxRequest)
+        .then(response => {
+          sendResponse(response);
+        })
+        .catch(err => {
+          console.log(err);
+          sendResponse(err);
+        });
+      return true;
+      break;
   }
 });
 
@@ -47,3 +58,10 @@ function sendAjaxRequest(request) {
     });
   })
 }
+
+// open the options page on install
+chrome.runtime.onInstalled.addListener(function (onInstalled) {
+    if (onInstalled.reason === 'install') {
+      chrome.tabs.create({url: 'chrome://extensions/?options=' + chrome.runtime.id});
+    }
+});

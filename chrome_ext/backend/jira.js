@@ -29,17 +29,15 @@ var jiraHelpers = {
   },
   getJiraUrl: function () {
     return new Promise(function(resolve, reject) {
-      resolve('https://thrillistmediagroup.atlassian.net/rest/api/2/issue');
-      //TODO: set this up properly with an options page
-      // chrome.storage.sync.get({
-      //   'jiraURl': ''
-      // }, function(items) {
-      //   if (!chrome.runtime.error) {
-      //     return resolve(items);
-      //   } else {
-      //     return reject(items);
-      //   }
-      // })
+      chrome.storage.sync.get({
+        'jira_url': ''
+      }, function(items) {
+        if (!chrome.runtime.error) {
+          return resolve(items);
+        } else {
+          return reject(items);
+        }
+      })
     })
   }
 }
@@ -70,7 +68,7 @@ var jira = {
         let request = {
           method: 'post',
           data: JSON.stringify(values[0]),
-          url: values[1],
+          url: values[1] + '/rest/api/2/issue',
           contentType: 'application/json; charset=utf-8'
         };
         resolve({
